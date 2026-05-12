@@ -1,0 +1,260 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Result
+{% endblock page_title %}
+
+{% block main_content %}
+
+<section class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="card card-primary">
+
+                    <div class="card-header">
+                        <h3 class="card-title">Result</h3>
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table table-bordered table-hover">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>ID</th>
+
+                                    <th>Subject</th>
+
+                                    <th>Assignment</th>
+                                    <th>Assignment Status</th>
+
+                                    <th>CT-1</th>
+                                    <th>CT-1 Status</th>
+
+                                    <th>CT-2</th>
+                                    <th>CT-2 Status</th>
+
+                                    <th>Best Two Total</th>
+
+                                    <th>Midsem</th>
+                                    <th>Midsem Status</th>
+
+                                    <th>Endsem</th>
+                                    <th>Endsem Status</th>
+
+                                    <th>Grand Total</th>
+
+                                    <th>Final Result</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for row in studentresult %}
+
+                                <tr>
+
+                                    <td>{{ row.id }}</td>
+
+                                    <td>{{ row.subject_id.subject_name }}</td>
+
+                                    <!-- Assignment -->
+
+                                    <td>{{ row.assignment_marks }}</td>
+
+                                    <td>
+
+                                        {% if row.assignment_marks >= 4 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- CT-1 -->
+
+                                    <td>{{ row.ct1_marks }}</td>
+
+                                    <td>
+
+                                        {% if row.ct1_marks >= 4 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- CT-2 -->
+
+                                    <td>{{ row.ct2_marks }}</td>
+
+                                    <td>
+
+                                        {% if row.ct2_marks >= 4 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- BEST TWO TOTAL -->
+
+                                    <td>
+
+                                        {% if row.assignment_marks <= row.ct1_marks and row.assignment_marks <= row.ct2_marks %}
+
+                                            {{ row.ct1_marks|add:row.ct2_marks }}
+
+                                        {% elif row.ct1_marks <= row.assignment_marks and row.ct1_marks <= row.ct2_marks %}
+
+                                            {{ row.assignment_marks|add:row.ct2_marks }}
+
+                                        {% else %}
+
+                                            {{ row.assignment_marks|add:row.ct1_marks }}
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- MIDSEM -->
+
+                                    <td>{{ row.midsem_marks }}</td>
+
+                                    <td>
+
+                                        {% if row.midsem_marks >= 8 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- ENDSEM -->
+
+                                    <td>{{ row.endsem_marks }}</td>
+
+                                    <td>
+
+                                        {% if row.endsem_marks >= 20 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- GRAND TOTAL -->
+
+                                    <td>
+
+                                        {% if row.assignment_marks <= row.ct1_marks and row.assignment_marks <= row.ct2_marks %}
+
+                                            {{ row.ct1_marks|add:row.ct2_marks|add:row.midsem_marks|add:row.endsem_marks }}
+
+                                        {% elif row.ct1_marks <= row.assignment_marks and row.ct1_marks <= row.ct2_marks %}
+
+                                            {{ row.assignment_marks|add:row.ct2_marks|add:row.midsem_marks|add:row.endsem_marks }}
+
+                                        {% else %}
+
+                                            {{ row.assignment_marks|add:row.ct1_marks|add:row.midsem_marks|add:row.endsem_marks }}
+
+                                        {% endif %}
+
+                                    </td>
+
+                                    <!-- FINAL RESULT -->
+
+                                    <td>
+
+                                        {% if row.midsem_marks >= 8 and row.endsem_marks >= 20 %}
+
+                                            <span class="badge badge-success">
+                                                PASS
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge badge-danger">
+                                                FAIL
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock main_content %}

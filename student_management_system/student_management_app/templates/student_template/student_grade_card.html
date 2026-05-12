@@ -1,0 +1,282 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Grade Card
+{% endblock page_title %}
+
+{% block main_content %}
+
+<section class="content">
+
+<div class="container-fluid">
+
+<div class="card">
+
+<div class="card-header">
+
+<h3 class="card-title">
+Student Grade Card
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<!-- BUTTONS -->
+
+<div class="mb-3">
+
+<button class="btn btn-primary mark-btn"
+        data-type="assignment">
+Assignment Marks
+</button>
+
+<button class="btn btn-info mark-btn"
+        data-type="ct1">
+CT-1 Marks
+</button>
+
+<button class="btn btn-warning mark-btn"
+        data-type="ct2">
+CT-2 Marks
+</button>
+
+<button class="btn btn-success mark-btn"
+        data-type="midsem">
+Midsem Marks
+</button>
+
+<button class="btn btn-dark mark-btn"
+        data-type="practical">
+Practical Marks
+</button>
+
+<button class="btn btn-danger mark-btn"
+        data-type="endsem">
+Endsem Marks
+</button>
+
+</div>
+
+<table class="table table-bordered table-striped">
+
+<thead class="bg-primary">
+
+<tr>
+
+<th>Subject</th>
+<th>Marks</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in results %}
+
+<!-- ASSIGNMENT -->
+
+<tr class="assignment marks-row">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.assignment_marks == -1 %}
+
+AB
+
+{% elif row.assignment_marks is not None %}
+
+{{ row.assignment_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<!-- CT1 -->
+
+<tr class="ct1 marks-row" style="display:none;">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.ct1_marks == -1 %}
+
+AB
+
+{% elif row.ct1_marks is not None %}
+
+{{ row.ct1_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<!-- CT2 -->
+
+<tr class="ct2 marks-row" style="display:none;">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.ct2_marks == -1 %}
+
+AB
+
+{% elif row.ct2_marks is not None %}
+
+{{ row.ct2_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<!-- MIDSEM -->
+
+<tr class="midsem marks-row" style="display:none;">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.midsem_marks == -1 %}
+
+AB
+
+{% elif row.midsem_marks is not None %}
+
+{{ row.midsem_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<!-- PRACTICAL -->
+
+<tr class="practical marks-row" style="display:none;">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.practical_marks == -1 %}
+
+AB
+
+{% elif row.practical_marks is not None %}
+
+{{ row.practical_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+<!-- ENDSEM -->
+
+<tr class="endsem marks-row" style="display:none;">
+
+<td>
+{{ row.subject_id.subject_name }}
+</td>
+
+<td>
+
+{% if row.endsem_marks == -1 %}
+
+AB
+
+{% elif row.endsem_marks is not None %}
+
+{{ row.endsem_marks }}
+
+{% else %}
+
+NA
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock main_content %}
+
+{% block custom_js %}
+
+<script>
+
+$(document).ready(function(){
+
+    $(".mark-btn").click(function(){
+
+        var type = $(this).data("type");
+
+        $(".marks-row").hide();
+
+        $("." + type).show();
+
+    });
+
+});
+
+</script>
+
+{% endblock custom_js %}

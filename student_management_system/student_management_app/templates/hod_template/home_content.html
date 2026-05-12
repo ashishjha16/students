@@ -1,0 +1,158 @@
+{% extends 'hod_template/base_template.html' %}
+
+{% block page_title %}
+Home
+{% endblock page_title %}
+
+{% block main_content %}
+<section class="content">
+  <div class="container-fluid">
+
+    <!-- TOP CARDS -->
+    <div class="row">
+
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>{{ student_count }}</h3>
+            <p>Total Students</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a href="{% url 'manage_student' %}" class="small-box-footer">More info</a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>{{ staff_count }}</h3>
+            <p>Total Staffs</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a href="{% url 'manage_staff' %}" class="small-box-footer">More info</a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-warning">
+          <div class="inner">
+            <h3>{{ course_count }}</h3>
+            <p>Total Courses</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a href="{% url 'manage_course' %}" class="small-box-footer">More info</a>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-6">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>{{ subject_count }}</h3>
+            <p>Total Subjects</p>
+          </div>
+          <div class="icon">
+            <i class="ion ion-pie-graph"></i>
+          </div>
+          <a href="{% url 'manage_subject' %}" class="small-box-footer">More info</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CHARTS ROW 1 -->
+    <div class="row">
+
+      <div class="col-lg-6">
+        <div class="card card-danger">
+          <div class="card-header">
+            <h3 class="card-title">Student and Staff Chart</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="pieChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card card-success">
+          <div class="card-header">
+            <h3 class="card-title">Total Subjects in Each Course</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="donutChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CHARTS ROW 2 -->
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Students in Each Course</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="pieChart3"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+{% endblock main_content %}
+
+
+{% block custom_js %}
+<script>
+$(document).ready(function(){
+
+    // Student vs Staff Chart
+    new Chart($('#pieChart'), {
+      type: 'pie',
+      data: {
+        labels: ['Students','Staffs'],
+        datasets: [{
+          data: [{{ student_count }}, {{ staff_count }}],
+          backgroundColor: ['#f56954','#00a65a']
+        }]
+      }
+    });
+
+    // Subjects per Course
+    new Chart($('#donutChart'), {
+      type: 'doughnut',
+      data: {
+        labels: {{ course_name_list|safe }},
+        datasets: [{
+          data: {{ subject_count_list }},
+          backgroundColor: ['#f56954','#00a65a','#f39c12','#00c0ef']
+        }]
+      }
+    });
+
+    // Students per Course
+    new Chart($('#pieChart3'), {
+      type: 'pie',
+      data: {
+        labels: {{ course_name_list|safe }},
+        datasets: [{
+          data: {{ student_count_list_in_course }},
+          backgroundColor: ['#f56954','#00a65a','#aa00ff','#ff3d00']
+        }]
+      }
+    });
+
+});
+</script>
+{% endblock custom_js %}

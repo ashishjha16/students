@@ -1,0 +1,27 @@
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Subject: Password reset on 127.0.0.1:7000
+From: webmaster@localhost
+To: abc@gmail.com
+Date: Sun, 26 Apr 2026 14:20:16 +0000
+Message-ID: <177721321654.5132.4805897066095046823@DESKTOP-H0BHIVV.lan>
+
+
+You're receiving this email because you requested a password reset for your u=
+ser account at 127.0.0.1:7000.
+
+Please go to the following page and choose a new password:
+
+http://127.0.0.1:7000/accounts/reset/NA/d7nr3s-17459b807a901d3d49df02ca8d903f=
+2d/
+
+In case you=E2=80=99ve forgotten, you are: abc
+
+Thanks for using our site!
+
+The 127.0.0.1:7000 team
+
+
+
+-------------------------------------------------------------------------------

@@ -1,0 +1,137 @@
+{% extends 'staff_template/base_template.html' %}
+
+{% block page_title %}
+Upload Assignment
+{% endblock page_title %}
+
+{% block main_content %}
+
+<section class="content">
+
+<div class="container-fluid">
+
+<div class="row">
+
+<div class="col-md-12">
+
+<form action="{% url 'staff_add_assignment_save' %}"
+      method="post"
+      enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<div class="card card-primary">
+
+<div class="card-header">
+
+<h3 class="card-title">
+Upload Assignment
+</h3>
+
+</div>
+
+<div class="card-body">
+
+<div class="form-group">
+
+<label>Subject</label>
+
+<select name="subject"
+        class="form-control"
+        required>
+
+{% for subject in subjects %}
+
+<option value="{{ subject.id }}">
+
+{{ subject.subject_name }}
+
+</option>
+
+{% endfor %}
+
+</select>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Assignment Title</label>
+
+<input type="text"
+       name="title"
+       class="form-control"
+       required>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Description</label>
+
+<textarea name="description"
+          class="form-control"
+          rows="5"
+          required></textarea>
+
+</div>
+
+
+
+<div class="form-group">
+
+<label>Upload Assignment File</label>
+
+<input type="file"
+       name="assignment_file"
+       class="form-control"
+       required>
+
+</div>
+
+
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-success">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+</div>
+
+<div class="card-footer">
+
+<button type="submit"
+        class="btn btn-primary">
+
+Upload Assignment
+
+</button>
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+{% endblock main_content %}

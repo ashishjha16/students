@@ -1,0 +1,159 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Attendance Calendar
+{% endblock page_title %}
+
+{% block main_content %}
+
+<section class="content">
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="card card-primary">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title">
+                            Attendance Calendar
+                        </h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+
+                            <label>Select Date</label>
+
+                            <input type="date"
+                                   id="attendance_date"
+                                   class="form-control">
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <button class="btn btn-primary"
+                                    id="fetch_attendance">
+
+                                Show Attendance
+
+                            </button>
+
+                        </div>
+
+                        <hr>
+
+                        <div id="attendance_result">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock main_content %}
+
+
+{% block custom_js %}
+
+<script>
+
+$(document).ready(function(){
+
+    $("#fetch_attendance").click(function(){
+
+        var attendance_date = $("#attendance_date").val();
+
+        $.ajax({
+
+            url: "{% url 'get_student_attendance_by_date' %}",
+
+            type: 'POST',
+
+            data: {
+
+                attendance_date: attendance_date,
+
+                csrfmiddlewaretoken:
+                $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success: function(response){
+
+                var div_data = "";
+
+                if(response.length == 0)
+                {
+
+                    div_data += "<div class='alert alert-danger'>";
+                    div_data += "No Attendance Found";
+                    div_data += "</div>";
+
+                }
+                else
+                {
+
+                    div_data += "<table class='table table-bordered'>";
+
+                    div_data += "<tr>";
+                    div_data += "<th>Subject</th>";
+                    div_data += "<th>Status</th>";
+                    div_data += "</tr>";
+
+                    for(var key in response)
+                    {
+
+                        div_data += "<tr>";
+
+                        div_data += "<td>";
+                        div_data += response[key].subject;
+                        div_data += "</td>";
+
+                        div_data += "<td>";
+                        div_data += response[key].status;
+                        div_data += "</td>";
+
+                        div_data += "</tr>";
+
+                    }
+
+                    div_data += "</table>";
+
+                }
+
+                $("#attendance_result").html(div_data);
+
+            },
+
+            error: function(){
+
+                alert("Error in Fetching Attendance");
+
+            }
+
+        });
+
+    });
+
+});
+
+</script>
+
+{% endblock custom_js %}

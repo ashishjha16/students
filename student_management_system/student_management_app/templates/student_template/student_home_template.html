@@ -1,0 +1,629 @@
+{% extends 'student_template/base_template.html' %}
+
+{% block page_title %}
+Home
+{% endblock page_title %}
+
+{% block main_content %}
+
+<section class="content">
+
+    <div class="container-fluid">
+
+        <!-- SMALL BOXES -->
+
+        <div class="row">
+
+            <!-- TOTAL ATTENDANCE -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-info">
+
+                    <div class="inner">
+
+                        <h3>{{ total_attendance }}</h3>
+
+                        <p>Total Attendance</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-stats-bars"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PRESENT -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-success">
+
+                    <div class="inner">
+
+                        <h3>{{ attendance_present }}</h3>
+
+                        <p>Present</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-checkmark"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ABSENT -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-danger">
+
+                    <div class="inner">
+
+                        <h3>{{ attendance_absent }}</h3>
+
+                        <p>Absent</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-close"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUBJECTS -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-warning">
+
+                    <div class="inner">
+
+                        <h3>{{ subjects }}</h3>
+
+                        <p>Total Subjects</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-book"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- SECOND ROW -->
+
+        <div class="row">
+
+            <!-- ATTENDANCE PERCENTAGE -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-primary">
+
+                    <div class="inner">
+
+                        <h3>
+                            {{ attendance_percentage|floatformat:2 }}%
+                        </h3>
+
+                        <p>Attendance Percentage</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-pie-graph"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STUDENT YEAR -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-secondary">
+
+                    <div class="inner">
+
+                        <h3>{{ student_obj.year }}</h3>
+
+                        <p>Current Year</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-university"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DIVISION -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-dark">
+
+                    <div class="inner">
+
+                        <h3>{{ student_obj.division }}</h3>
+
+                        <p>Division</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-person-stalker"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ROLL NUMBER -->
+
+            <div class="col-lg-3 col-6">
+
+                <div class="small-box bg-teal">
+
+                    <div class="inner">
+
+                        <h3>{{ student_obj.roll_no }}</h3>
+
+                        <p>Roll Number</p>
+
+                    </div>
+
+                    <div class="icon">
+                        <i class="ion ion-card"></i>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- CHARTS -->
+
+        <div class="row">
+
+            <!-- PIE CHART -->
+
+            <div class="col-lg-6">
+
+                <div class="card card-danger">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title">
+                            Attendance Chart
+                        </h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <canvas id="pieChart"
+                                style="min-height:250px;height:250px;"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- BAR CHART -->
+
+            <div class="col-lg-6">
+
+                <div class="card card-success">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title">
+                            Subject Wise Attendance
+                        </h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <canvas id="barChart"
+                                style="min-height:250px;height:250px;"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- CALENDAR -->
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card card-primary">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title">
+                            Attendance Calendar
+                        </h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div id="calendar"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+<!-- MODAL -->
+
+<div class="modal fade"
+     id="attendanceModal"
+     tabindex="-1"
+     role="dialog">
+
+    <div class="modal-dialog modal-lg"
+         role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    Attendance Details
+                </h5>
+
+                <button type="button"
+                        class="close"
+                        data-dismiss="modal">
+
+                    <span>&times;</span>
+
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div id="attendance_result"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock main_content %}
+
+
+
+
+
+{% block custom_js %}
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
+<script>
+
+$(document).ready(function(){
+
+
+
+    // =========================
+    // PIE CHART
+    // =========================
+
+    var pieChartCanvas =
+        $('#pieChart').get(0).getContext('2d');
+
+    var pieData = {
+
+        labels: ['Absent', 'Present'],
+
+        datasets: [{
+
+            data: [
+                {{ attendance_absent }},
+                {{ attendance_present }}
+            ],
+
+            backgroundColor: [
+                '#f56954',
+                '#00a65a'
+            ]
+
+        }]
+
+    };
+
+    new Chart(pieChartCanvas, {
+
+        type: 'pie',
+
+        data: pieData,
+
+        options: {
+
+            responsive: true,
+            maintainAspectRatio: false
+
+        }
+
+    });
+
+
+
+
+
+    // =========================
+    // BAR CHART
+    // =========================
+
+    var subjects = {{ data_name|safe }};
+
+    var data1 = {{ data1 }};
+
+    var data2 = {{ data2 }};
+
+    var barChartCanvas =
+        $('#barChart').get(0).getContext('2d');
+
+    var barData = {
+
+        labels: subjects,
+
+        datasets: [
+
+            {
+
+                label: 'Present',
+
+                backgroundColor: '#00a65a',
+
+                data: data1
+
+            },
+
+            {
+
+                label: 'Absent',
+
+                backgroundColor: '#f56954',
+
+                data: data2
+
+            }
+
+        ]
+
+    };
+
+    new Chart(barChartCanvas, {
+
+        type: 'bar',
+
+        data: barData,
+
+        options: {
+
+            responsive: true,
+            maintainAspectRatio: false
+
+        }
+
+    });
+
+
+
+
+
+    // =========================
+    // CALENDAR
+    // =========================
+
+    var calendarEl =
+        document.getElementById('calendar');
+
+    var calendar =
+        new FullCalendar.Calendar(calendarEl, {
+
+        initialView: 'dayGridMonth',
+
+        height: 650,
+
+        dateClick: function(info){
+
+            fetchAttendance(info.dateStr);
+
+        }
+
+    });
+
+    calendar.render();
+
+
+
+
+
+    // =========================
+    // FETCH ATTENDANCE
+    // =========================
+
+    function fetchAttendance(selected_date){
+
+        $.ajax({
+
+            url: "{% url 'get_student_attendance_by_date' %}",
+
+            type: 'POST',
+
+            data: {
+
+                attendance_date: selected_date,
+
+                csrfmiddlewaretoken:
+                $('input[name=csrfmiddlewaretoken]').val()
+
+            },
+
+            success: function(response){
+
+                var html = "";
+
+                html +=
+                "<h4 class='mb-3'>Attendance of "
+                + selected_date +
+                "</h4>";
+
+                if(response.length == 0)
+                {
+
+                    html +=
+                    "<div class='alert alert-danger'>";
+
+                    html +=
+                    "No Attendance Found";
+
+                    html +=
+                    "</div>";
+
+                }
+
+                else
+                {
+
+                    html +=
+                    "<table class='table table-bordered table-striped'>";
+
+                    html += "<tr>";
+
+                    html += "<th>Subject</th>";
+
+                    html += "<th>Status</th>";
+
+                    html += "</tr>";
+
+                    for(var key in response)
+                    {
+
+                        html += "<tr>";
+
+                        html += "<td>";
+                        html += response[key].subject;
+                        html += "</td>";
+
+                        html += "<td>";
+
+                        if(response[key].status == "Present")
+                        {
+
+                            html +=
+                            "<span class='badge badge-success'>Present</span>";
+
+                        }
+
+                        else
+                        {
+
+                            html +=
+                            "<span class='badge badge-danger'>Absent</span>";
+
+                        }
+
+                        html += "</td>";
+
+                        html += "</tr>";
+
+                    }
+
+                    html += "</table>";
+
+                }
+
+                $("#attendance_result").html(html);
+
+                $("#attendanceModal").modal('show');
+
+            },
+
+            error: function(){
+
+                alert("Error Fetching Attendance");
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+{% endblock custom_js %}
