@@ -48,7 +48,7 @@ def signup_admin(request):
 
 def signup_student(request):
     courses=Courses.objects.all()
-    session_years=SessionYearModel.objects.all()
+    session_years=SessionYearModel.object.all()
     return render(request,"signup_student_page.html",{"courses":courses,"session_years":session_years})
 
 def signup_staff(request):
@@ -106,7 +106,7 @@ def do_signup_student(request):
     user.students.address = address
     course_obj = Courses.objects.get(id=course_id)
     user.students.course_id = course_obj
-    session_year = SessionYearModel.objects.get(id=session_year_id)
+    session_year = SessionYearModel.object.get(id=session_year_id)
     user.students.session_year_id = session_year
     user.students.gender = sex
     user.students.profile_pic = profile_pic_url
