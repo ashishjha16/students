@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -23,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)4gbp!a*zc(g8fgtokqqk8zo$cpi*o9)p=538=8o8)a2oez3lm"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["students-isin.onrender.com", "localhost", "127.0.0.1"]
 
@@ -83,10 +84,9 @@ WSGI_APPLICATION = "student_management_system.wsgi.application"
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.parse(
+        "postgresql://students_db_qsaz_user:5q09eyU37SsrkYgzrq7zaAiLv4uXXakH@dpg-d82tpnhkh4rs73fjjmvg-a.singapore-postgres.render.com/students_db_qsaz"
+    )
 }
 
 # Password validation
